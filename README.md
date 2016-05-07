@@ -1,4 +1,4 @@
-# gulp-webpack-react
+#React-Redux and API
 Small project to investigate driving a webpack/React build pipeline using Gulp.
 
 ##Initial
