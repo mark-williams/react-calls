@@ -1,0 +1,22 @@
+{
+  "name": "gulp-webpack-react",
+  "description": "Using Gulp to control a webpack build environment.",
+  "main": "index.js",
+  "authors": [
+    "Mark Williams"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mark-williams/gulp-webpack-react",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "skeleton": "~2.0.4"
+  }
+}
