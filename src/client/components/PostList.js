@@ -1,13 +1,15 @@
 import React from 'react';
 import { Post } from './Post';
 import reqwest from 'reqwest';
+import postsStore from './PostsStore';
+import { POSTS_RETRIEVED, postDataRetrieved } from './actions';
 
 class PostList extends React.Component {
     
     constructor() {
         super();
-        
-        this.state = { posts: [] };
+        postsStore.subscribe(this.storeUpdated.bind(this));
+        this.state = postsStore.getState();
     }
     
     componentDidMount() {
@@ -16,16 +18,17 @@ class PostList extends React.Component {
             , type: 'jsonp'
             })
             .then(
-                (resp) => this.setState({posts: resp})
+                (resp) => postsStore.dispatch(postDataRetrieved(resp))
             )
-            .fail(function (err, msg) {
+            .fail((err, msg) => {
+                console.log('ERROR: ' + err);
             })
-            .always(function (resp) {
-            })
+     }
+   
+    storeUpdated() {
+        this.setState(postsStore.getState());    
     }
-    //
-            //)
-               
+    
     renderPost(p) {
         return (
             <li key={ p.id }>
