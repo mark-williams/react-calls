@@ -21071,11 +21071,11 @@
 	
 	    switch (action.type) {
 	        case _actions.POSTS_RETRIEVED:
-	            return Object.assign({}, { posts: action.data });
+	            return Object.assign({}, state, { posts: action.data });
 	        case _actions.USERS_RETRIEVED:
-	            return Object.assign({}, { users: action.data });
+	            return Object.assign({}, state, { users: action.data });
 	        case _actions.USER_FILTER_CHANGE:
-	            return Object.assign({}, { userFilter: parseInt(action.value) });
+	            return Object.assign({}, state, { userFilter: parseInt(action.value) });
 	        default:
 	            return initialState;
 	    }
