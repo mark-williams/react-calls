@@ -20253,9 +20253,9 @@
 	
 	var _PostsStore2 = _interopRequireDefault(_PostsStore);
 	
-	var _actions = __webpack_require__(187);
+	var _actions = __webpack_require__(188);
 	
-	var _PostFilter = __webpack_require__(188);
+	var _PostFilter = __webpack_require__(189);
 	
 	var _PostFilter2 = _interopRequireDefault(_PostFilter);
 	
@@ -21052,36 +21052,18 @@
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _redux = __webpack_require__(174);
 	
-	var _actions = __webpack_require__(187);
+	var _reducers = __webpack_require__(187);
 	
-	var initialState = {
-	    posts: [],
-	    users: [],
-	    userFilter: 0
-	};
+	var _reducers2 = _interopRequireDefault(_reducers);
 	
-	var postsReducer = function postsReducer() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	    switch (action.type) {
-	        case _actions.POSTS_RETRIEVED:
-	            return Object.assign({}, state, { posts: action.data });
-	        case _actions.USERS_RETRIEVED:
-	            return Object.assign({}, state, { users: action.data });
-	        case _actions.USER_FILTER_CHANGE:
-	            return Object.assign({}, state, { userFilter: parseInt(action.value) });
-	        default:
-	            return initialState;
-	    }
-	};
-	
-	var postsStore = (0, _redux.createStore)(postsReducer);
+	var postsStore = (0, _redux.createStore)(_reducers2.default);
 	exports.default = postsStore;
 
 /***/ },
@@ -21950,6 +21932,42 @@
 
 /***/ },
 /* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _actions = __webpack_require__(188);
+	
+	var initialState = {
+	    posts: [],
+	    users: [],
+	    userFilter: 0
+	};
+	
+	var postsReducer = function postsReducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _actions.POSTS_RETRIEVED:
+	            return Object.assign({}, state, { posts: action.data });
+	        case _actions.USERS_RETRIEVED:
+	            return Object.assign({}, state, { users: action.data });
+	        case _actions.USER_FILTER_CHANGE:
+	            return Object.assign({}, state, { userFilter: parseInt(action.value) });
+	        default:
+	            return initialState;
+	    }
+	};
+	
+	exports.default = postsReducer;
+
+/***/ },
+/* 188 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -21974,7 +21992,7 @@
 	};
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
