@@ -29,3 +29,5 @@ const reducer = (state = initialState, action) => {
 }
 ~~~~
 
+#####Tests
+Added some basic tests for the reducers - will enhance these using *Deep-Freeze* to ensure immutability.
