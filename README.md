@@ -16,3 +16,16 @@ Now supports filtering of posts by user. This is implemented by a fairly dumb co
 
 Currently one reducer is handling all actions; I will try and tidy this up, looking to have separate reducers for each action.
 
+####Reducer composition
+The initial reducer function has now been split into several reducers, each responsible for a particular part of the state. Possibly overkill in such a simple solution as this, however this is to illustrate *reducer composition* - in this case the constituent parts of the overall state are managed by separate reducers:
+
+~~~~
+const reducer = (state = initialState, action) => {
+    return {
+        posts: postsReducer(state.posts, action),
+        users: usersReducer(state.users, action),
+        userFilter: filterReducer(state.userFilter, action)
+    }
+}
+~~~~
+
