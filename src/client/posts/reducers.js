@@ -7,18 +7,39 @@ const initialState = {
 };
 
 
-
-const postsReducer = (state=initialState, action) => {
+const postsReducer = (state = [], action) => {
     switch (action.type) {
         case POSTS_RETRIEVED:
-            return Object.assign({}, state, { posts: action.data });
-        case USERS_RETRIEVED:
-            return Object.assign({}, state, { users: action.data });
-        case USER_FILTER_CHANGE: 
-            return Object.assign({}, state, { userFilter: parseInt(action.value) });
+            return action.data;
         default:
-            return initialState;
+            return state;
     }
 };
 
-export default postsReducer;
+const usersReducer = (state = [], action) => {
+    switch (action.type) {
+        case USERS_RETRIEVED:
+            return action.data;
+        default:
+            return state;
+    }
+}
+
+const filterReducer = (state = 0, action) => {
+    switch (action.type) {
+        case USER_FILTER_CHANGE:
+            return parseInt(action.value);
+        default:
+            return state;
+    }
+}
+
+const reducer = (state = initialState, action) => {
+    return {
+        posts: postsReducer(state.posts, action),
+        users: usersReducer(state.users, action),
+        userFilter: filterReducer(state.userFilter, action)
+    }
+}
+
+export default reducer;
