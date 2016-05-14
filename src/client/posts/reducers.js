@@ -6,8 +6,7 @@ const initialState = {
     userFilter: 0
 };
 
-
-const postsReducer = (state = [], action) => {
+export const postsReducer = (state = [], action) => {
     switch (action.type) {
         case POSTS_RETRIEVED:
             return action.data;
@@ -16,7 +15,7 @@ const postsReducer = (state = [], action) => {
     }
 };
 
-const usersReducer = (state = [], action) => {
+export const usersReducer = (state = [], action) => {
     switch (action.type) {
         case USERS_RETRIEVED:
             return action.data;
@@ -25,7 +24,7 @@ const usersReducer = (state = [], action) => {
     }
 }
 
-const filterReducer = (state = 0, action) => {
+export const filterReducer = (state = 0, action) => {
     switch (action.type) {
         case USER_FILTER_CHANGE:
             return parseInt(action.value);

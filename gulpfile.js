@@ -4,6 +4,10 @@ var config = require('./webpack.config.js');
 var useref = require('gulp-useref');
 var del = require('del');
 var gulpConfig = require('./gulp-config');
+var gutil = require('gulp-util');
+var mocha = require('gulp-mocha'); 
+var babel = require('babel-core/register');
+
 
 var assets = useref({searchPath: ['./', './bower_components']});
 
@@ -31,6 +35,21 @@ gulp.task('clean-assets', function(done) {
 gulp.task('watch', function() {
 	gulp.watch(gulpConfig.sourceJs, ['build-app']);
 });
+
+
+gulp.task('tests', function() {
+    return gulp.src(gulpConfig.sourceTests, {read: false})
+        .pipe(mocha({
+			reporter: 'list'
+		}))
+        .on('error', gutil.log);
+});
+
+gulp.task('watch-tests', function() {
+    gulp.watch(['./**/*.js', gulpConfig.sourceTests], ['tests']);    
+});
+
+
 
 gulp.task('default', ['build'], function() {
 });

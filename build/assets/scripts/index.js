@@ -21949,22 +21949,53 @@
 	};
 	
 	var postsReducer = function postsReducer() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
 	
 	    switch (action.type) {
 	        case _actions.POSTS_RETRIEVED:
-	            return Object.assign({}, state, { posts: action.data });
-	        case _actions.USERS_RETRIEVED:
-	            return Object.assign({}, state, { users: action.data });
-	        case _actions.USER_FILTER_CHANGE:
-	            return Object.assign({}, state, { userFilter: parseInt(action.value) });
+	            return action.data;
 	        default:
-	            return initialState;
+	            return state;
 	    }
 	};
 	
-	exports.default = postsReducer;
+	var usersReducer = function usersReducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _actions.USERS_RETRIEVED:
+	            return action.data;
+	        default:
+	            return state;
+	    }
+	};
+	
+	var filterReducer = function filterReducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _actions.USER_FILTER_CHANGE:
+	            return parseInt(action.value);
+	        default:
+	            return state;
+	    }
+	};
+	
+	var reducer = function reducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+	
+	    return {
+	        posts: postsReducer(state.posts, action),
+	        users: usersReducer(state.users, action),
+	        userFilter: filterReducer(state.userFilter, action)
+	    };
+	};
+	
+	exports.default = reducer;
 
 /***/ },
 /* 188 */
