@@ -46,7 +46,7 @@ gulp.task('tests', function() {
 });
 
 gulp.task('watch-tests', function() {
-    gulp.watch(['./**/*.js', gulpConfig.sourceTests], ['tests']);    
+    gulp.watch([gulpConfig.sourceJs, gulpConfig.sourceTests], ['tests']);    
 });
 
 

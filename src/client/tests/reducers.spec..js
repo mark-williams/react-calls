@@ -5,7 +5,6 @@ import { postDataRetrieved, usersDataRetrieved, userFilterChange } from '../post
 var chai = require('chai');
 var expect = chai.expect;
 
-
 describe('Reducer tests', function () {
 
     describe('postsReducer', () => {
