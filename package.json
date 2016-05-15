@@ -17,6 +17,7 @@
     "babel-register": "^6.8.0",
     "bower": "^1.7.9",
     "chai": "^3.5.0",
+    "deep-freeze": "0.0.1",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
