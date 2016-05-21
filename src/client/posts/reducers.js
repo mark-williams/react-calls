@@ -1,4 +1,4 @@
-import { POSTS_START_RETRIEVING, POSTS_RETRIEVED, USERS_RETRIEVED, USER_FILTER_CHANGE } from './actions';
+import { START_RETRIEVING_DATA, POSTS_RETRIEVED, USERS_RETRIEVED, USER_FILTER_CHANGE } from './actions';
 export const UI_LOADING = 'UI_LOADING';
 export const UI_LOADED = 'UI_LOADED';
 
@@ -11,8 +11,6 @@ const initialState = {
 
 export const postsReducer = (state = [], action) => {
     switch (action.type) {
-        case POSTS_START_RETRIEVING:
-            return [];
         case POSTS_RETRIEVED:
             return action.data;
         default:
@@ -40,7 +38,7 @@ export const filterReducer = (state = 0, action) => {
 
 export const uiReducer = (state = UI_LOADING, action) => {
     switch (action.type) {
-        case POSTS_START_RETRIEVING:
+        case START_RETRIEVING_DATA:
             return UI_LOADING;
         case POSTS_RETRIEVED:
             return UI_LOADED;

@@ -1,6 +1,6 @@
 import reducer, { postsReducer, usersReducer, filterReducer, uiReducer }  from '../posts/reducers';
 import { UI_LOADING, UI_LOADED } from '../posts/reducers';
-import { postStartRetrieving, postDataRetrieved, usersDataRetrieved, userFilterChange } from '../posts/actions';
+import { startRetrievingData, postDataRetrieved, usersDataRetrieved, userFilterChange } from '../posts/actions';
 import deepFreeze from 'deep-freeze';
 
 var chai = require('chai');
@@ -37,11 +37,6 @@ describe('Reducer tests', function () {
             var newState = postsReducer(null, postDataRetrieved(posts));
             expect(newState).to.have.length(posts.length);
         });
-        
-        it('retrieving action should clear posts', function () {
-            var newState = postsReducer(null, postStartRetrieving(posts));
-            expect(newState).to.have.length(0);
-        });
     });
     
     describe('usersReducer', () => {
@@ -70,7 +65,7 @@ describe('Reducer tests', function () {
         });
     });
     
-    describe ('uiState reducer', () => {
+    describe('uiState reducer', () => {
     
        it(`should default to 'loading' for unsupported actions`, function() {
         var newState = uiReducer(undefined, { type: 'INVALID' });
@@ -78,7 +73,7 @@ describe('Reducer tests', function () {
        });
        
         it(`should default to 'loading' for start retrieving action`, function() {
-            var newState = uiReducer(undefined, postStartRetrieving(posts));
+            var newState = uiReducer(undefined, startRetrievingData());
             expect(newState).to.equal(UI_LOADING);    
        });
        
