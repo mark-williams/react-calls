@@ -11,7 +11,8 @@ import {
     postStartRetrieving,
     postDataRetrieved, 
     usersDataRetrieved, 
-    userFilterChange 
+    userFilterChange,
+    getData 
 } from './actions';
 import { UI_LOADING, UI_LOADED } from './reducers';
 import PostFilter from './PostFilter';
@@ -23,36 +24,9 @@ class PostList extends React.Component {
         postsStore.subscribe(this.storeUpdated.bind(this));
         this.state = postsStore.getState();
     }
-    
+
     componentDidMount() {
-        postsStore.dispatch(postStartRetrieving());
-        setTimeout(() => {
-            reqwest({
-                url: 'http://jsonplaceholder.typicode.com/posts'
-                , type: 'json'
-                })
-                .then(
-                    (resp) => postsStore.dispatch(postDataRetrieved(resp))
-                )
-                .fail((err, msg) => {
-                    console.log('ERROR: ' + err);
-                })
-        }, 6000);
-            
-        reqwest({
-            url: 'http://jsonplaceholder.typicode.com/users'
-            , type: 'json'
-            })
-            .then(
-                (resp) => postsStore.dispatch(usersDataRetrieved(resp))
-            )
-            .fail((err, msg) => {
-                console.log('ERROR: ' + err);
-            });
-    }
-   
-    componentDidUpdate() {
-        console.log('Updated');
+       postsStore.dispatch(getData());
     }
    
     storeUpdated() {
@@ -72,9 +46,6 @@ class PostList extends React.Component {
     }   
 
     filterPosts(){
-        // if (typeof this.state.posts === 'undefined') {
-        //     return null;
-        // }
         return this.state.posts
             .filter((u) => {
                 return (this.state.userFilter == 0) ? true : (u.userId === this.state.userFilter); 

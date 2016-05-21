@@ -20253,11 +20253,11 @@
 	
 	var _PostsStore2 = _interopRequireDefault(_PostsStore);
 	
-	var _actions = __webpack_require__(188);
+	var _actions = __webpack_require__(189);
 	
-	var _reducers = __webpack_require__(187);
+	var _reducers = __webpack_require__(188);
 	
-	var _PostFilter = __webpack_require__(189);
+	var _PostFilter = __webpack_require__(190);
 	
 	var _PostFilter2 = _interopRequireDefault(_PostFilter);
 	
@@ -20285,31 +20285,7 @@
 	    _createClass(PostList, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            _PostsStore2.default.dispatch((0, _actions.postStartRetrieving)());
-	            setTimeout(function () {
-	                (0, _reqwest2.default)({
-	                    url: 'http://jsonplaceholder.typicode.com/posts',
-	                    type: 'json'
-	                }).then(function (resp) {
-	                    return _PostsStore2.default.dispatch((0, _actions.postDataRetrieved)(resp));
-	                }).fail(function (err, msg) {
-	                    console.log('ERROR: ' + err);
-	                });
-	            }, 6000);
-	
-	            (0, _reqwest2.default)({
-	                url: 'http://jsonplaceholder.typicode.com/users',
-	                type: 'json'
-	            }).then(function (resp) {
-	                return _PostsStore2.default.dispatch((0, _actions.usersDataRetrieved)(resp));
-	            }).fail(function (err, msg) {
-	                console.log('ERROR: ' + err);
-	            });
-	        }
-	    }, {
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate() {
-	            console.log('Updated');
+	            _PostsStore2.default.dispatch((0, _actions.getData)());
 	        }
 	    }, {
 	        key: 'storeUpdated',
@@ -20335,9 +20311,6 @@
 	        value: function filterPosts() {
 	            var _this2 = this;
 	
-	            // if (typeof this.state.posts === 'undefined') {
-	            //     return null;
-	            // }
 	            return this.state.posts.filter(function (u) {
 	                return _this2.state.userFilter == 0 ? true : u.userId === _this2.state.userFilter;
 	            }).map(function (p) {
@@ -21073,13 +21046,17 @@
 	
 	var _redux = __webpack_require__(174);
 	
-	var _reducers = __webpack_require__(187);
+	var _reduxThunk = __webpack_require__(187);
+	
+	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
+	
+	var _reducers = __webpack_require__(188);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var postsStore = (0, _redux.createStore)(_reducers2.default);
+	var postsStore = (0, _redux.createStore)(_reducers2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 	exports.default = postsStore;
 
 /***/ },
@@ -21948,6 +21925,34 @@
 
 /***/ },
 /* 187 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	function createThunkMiddleware(extraArgument) {
+	  return function (_ref) {
+	    var dispatch = _ref.dispatch;
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        if (typeof action === 'function') {
+	          return action(dispatch, getState, extraArgument);
+	        }
+	
+	        return next(action);
+	      };
+	    };
+	  };
+	}
+	
+	var thunk = createThunkMiddleware();
+	thunk.withExtraArgument = createThunkMiddleware;
+	
+	exports['default'] = thunk;
+
+/***/ },
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21955,9 +21960,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.filterReducer = exports.usersReducer = exports.postsReducer = exports.UI_LOADED = exports.UI_LOADING = undefined;
+	exports.uiReducer = exports.filterReducer = exports.usersReducer = exports.postsReducer = exports.UI_LOADED = exports.UI_LOADING = undefined;
 	
-	var _actions = __webpack_require__(188);
+	var _actions = __webpack_require__(189);
 	
 	var UI_LOADING = exports.UI_LOADING = 'UI_LOADING';
 	var UI_LOADED = exports.UI_LOADED = 'UI_LOADED';
@@ -22007,8 +22012,8 @@
 	    }
 	};
 	
-	var uiReducer = function uiReducer() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	var uiReducer = exports.uiReducer = function uiReducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? UI_LOADING : arguments[0];
 	    var action = arguments[1];
 	
 	    switch (action.type) {
@@ -22036,14 +22041,22 @@
 	exports.default = reducer;
 
 /***/ },
-/* 188 */
-/***/ function(module, exports) {
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.getData = exports.userFilterChange = exports.usersDataRetrieved = exports.postDataRetrieved = exports.postStartRetrieving = exports.USER_FILTER_CHANGE = exports.USERS_RETRIEVED = exports.POSTS_START_RETRIEVING = exports.POSTS_RETRIEVED = undefined;
+	
+	var _reqwest = __webpack_require__(171);
+	
+	var _reqwest2 = _interopRequireDefault(_reqwest);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var POSTS_RETRIEVED = exports.POSTS_RETRIEVED = 'POSTS_RETRIEVED';
 	var POSTS_START_RETRIEVING = exports.POSTS_START_RETRIEVING = 'POSTS_START_RETRIEVING';
 	var USERS_RETRIEVED = exports.USERS_RETRIEVED = 'USERS_RETRIEVED';
@@ -22064,9 +22077,34 @@
 	var userFilterChange = exports.userFilterChange = function userFilterChange(value) {
 	    return { type: USER_FILTER_CHANGE, value: value };
 	};
+	
+	var getData = exports.getData = function getData() {
+	    return function (dispatch) {
+	        dispatch(postStartRetrieving());
+	        setTimeout(function () {
+	            (0, _reqwest2.default)({
+	                url: 'http://jsonplaceholder.typicode.com/posts',
+	                type: 'json'
+	            }).then(function (resp) {
+	                return dispatch(postDataRetrieved(resp));
+	            }).fail(function (err, msg) {
+	                console.log('ERROR: ' + err);
+	            });
+	        }, 5000);
+	
+	        (0, _reqwest2.default)({
+	            url: 'http://jsonplaceholder.typicode.com/users',
+	            type: 'json'
+	        }).then(function (resp) {
+	            return dispatch(usersDataRetrieved(resp));
+	        }).fail(function (err, msg) {
+	            console.log('ERROR: ' + err);
+	        });
+	    };
+	};
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
