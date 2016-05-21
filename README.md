@@ -33,3 +33,8 @@ const reducer = (state = initialState, action) => {
 Added some basic tests for the reducers - will enhance these using *Deep-Freeze* to ensure immutability.
 
 15 May 2016 - added tests for immutability using Deep-Freeze.
+
+####Added uiState
+Added an extra state property to indicate where data is being loaded (so we could show, say, a spinner or *loading* message). This of course has its own reducer. I've added a simple timeout before making the api call to simualte a slow call.
+
+
