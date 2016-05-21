@@ -8,10 +8,12 @@ import {
     USER_FILTER_CHANGE, 
 } from './actions';
 import { 
+    postStartRetrieving,
     postDataRetrieved, 
     usersDataRetrieved, 
     userFilterChange 
 } from './actions';
+import { UI_LOADING, UI_LOADED } from './reducers';
 import PostFilter from './PostFilter';
 
 class PostList extends React.Component {
@@ -23,27 +25,30 @@ class PostList extends React.Component {
     }
     
     componentDidMount() {
-        console.log('Mounted!');
-        reqwest({
-            url: 'http://jsonplaceholder.typicode.com/posts'
-            , type: 'jsonp'
-            })
-            .then(
-                (resp) => postsStore.dispatch(postDataRetrieved(resp))
-            )
-            .fail((err, msg) => {
-                console.log('ERROR: ' + err);
-            })
+        postsStore.dispatch(postStartRetrieving());
+        setTimeout(() => {
+            reqwest({
+                url: 'http://jsonplaceholder.typicode.com/posts'
+                , type: 'json'
+                })
+                .then(
+                    (resp) => postsStore.dispatch(postDataRetrieved(resp))
+                )
+                .fail((err, msg) => {
+                    console.log('ERROR: ' + err);
+                })
+        }, 6000);
+            
         reqwest({
             url: 'http://jsonplaceholder.typicode.com/users'
-            , type: 'jsonp'
+            , type: 'json'
             })
             .then(
                 (resp) => postsStore.dispatch(usersDataRetrieved(resp))
             )
             .fail((err, msg) => {
                 console.log('ERROR: ' + err);
-            })
+            });
     }
    
     componentDidUpdate() {
@@ -67,17 +72,22 @@ class PostList extends React.Component {
     }   
 
     filterPosts(){
+        // if (typeof this.state.posts === 'undefined') {
+        //     return null;
+        // }
         return this.state.posts
             .filter((u) => {
-                //return true; 
                 return (this.state.userFilter == 0) ? true : (u.userId === this.state.userFilter); 
             })
            .map(p => this.renderPost(p)); 
     }
-
       
     render() {
-        console.log(this.state);
+        let retrievingMessage = '';
+        if (this.state.uiState === UI_LOADING) {
+            retrievingMessage = <div>Just getting your data, thanks for your patience</div>;
+        }
+        
         return (
             <div>
                 <div className="row">
@@ -85,6 +95,7 @@ class PostList extends React.Component {
                 </div>
                 <div className="row">
                     <div className="eight columns">
+                        { retrievingMessage }
                         <ul style={{ listStyleType: 'none' }}>
                             { this.filterPosts.call(this) }        
                         </ul>

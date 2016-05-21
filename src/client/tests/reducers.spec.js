@@ -1,5 +1,6 @@
-import reducer, { postsReducer, usersReducer, filterReducer }  from '../posts/reducers';
-import { postDataRetrieved, usersDataRetrieved, userFilterChange } from '../posts/actions';
+import reducer, { postsReducer, usersReducer, filterReducer, uiReducer }  from '../posts/reducers';
+import { UI_LOADING, UI_LOADED } from '../posts/reducers';
+import { postStartRetrieving, postDataRetrieved, usersDataRetrieved, userFilterChange } from '../posts/actions';
 import deepFreeze from 'deep-freeze';
 
 var chai = require('chai');
@@ -32,12 +33,17 @@ describe('Reducer tests', function () {
             expect(newState).to.have.length(0);
         });
 
-        it('given a valid action should set posts to the data delivered', function () {
+        it('retrieved action should set posts to the data delivered', function () {
             var newState = postsReducer(null, postDataRetrieved(posts));
             expect(newState).to.have.length(posts.length);
         });
+        
+        it('retrieving action should clear posts', function () {
+            var newState = postsReducer(null, postStartRetrieving(posts));
+            expect(newState).to.have.length(0);
+        });
     });
-
+    
     describe('usersReducer', () => {
 
         it('should set users to empty for an unsupported action', function () {
@@ -45,7 +51,7 @@ describe('Reducer tests', function () {
             expect(newState).to.have.length(0);
         });
 
-        it('given a valid action should set the users to the data delivered', function () {
+        it('valid action should set the users to the data delivered', function () {
             var newState = usersReducer(null, usersDataRetrieved(users));
             expect(newState).to.have.length(users.length);
         });
@@ -58,12 +64,29 @@ describe('Reducer tests', function () {
             expect(newState).to.equal(0);
         });
 
-        it('given a valid action should set the data to that passed in', function () {
+        it('valid action should set the data to that passed in', function () {
             var newState = filterReducer(null, userFilterChange(3));
             expect(newState).to.equal(3);
         });
     });
     
+    describe ('uiState reducer', () => {
+    
+       it(`should default to 'loading' for unsupported actions`, function() {
+        var newState = uiReducer(undefined, { type: 'INVALID' });
+        expect(newState).to.equal(UI_LOADING);    
+       });
+       
+        it(`should default to 'loading' for start retrieving action`, function() {
+            var newState = uiReducer(undefined, postStartRetrieving(posts));
+            expect(newState).to.equal(UI_LOADING);    
+       });
+       
+       it(`should default to 'loaded' for posts retrieved action`, function() {
+            var newState = uiReducer(undefined, postDataRetrieved(posts));
+            expect(newState).to.equal(UI_LOADED);    
+       }); 
+    });
 
     describe('Immutable state', () => {
         it('should not mutate the state when setting posts', () => {

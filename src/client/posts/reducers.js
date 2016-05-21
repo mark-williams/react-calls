@@ -1,13 +1,18 @@
-import { POSTS_RETRIEVED, USERS_RETRIEVED, USER_FILTER_CHANGE } from './actions';
+import { POSTS_START_RETRIEVING, POSTS_RETRIEVED, USERS_RETRIEVED, USER_FILTER_CHANGE } from './actions';
+export const UI_LOADING = 'UI_LOADING';
+export const UI_LOADED = 'UI_LOADED';
 
 const initialState = {
     posts: [],
     users: [],
-    userFilter: 0
+    userFilter: 0,
+    uiState: UI_LOADING
 };
 
 export const postsReducer = (state = [], action) => {
     switch (action.type) {
+        case POSTS_START_RETRIEVING:
+            return [];
         case POSTS_RETRIEVED:
             return action.data;
         default:
@@ -33,11 +38,23 @@ export const filterReducer = (state = 0, action) => {
     }
 }
 
+export const uiReducer = (state = UI_LOADING, action) => {
+    switch (action.type) {
+        case POSTS_START_RETRIEVING:
+            return UI_LOADING;
+        case POSTS_RETRIEVED:
+            return UI_LOADED;
+        default:
+            return state;
+    }
+}
+
 const reducer = (state = initialState, action) => {
     return {
         posts: postsReducer(state.posts, action),
         users: usersReducer(state.users, action),
-        userFilter: filterReducer(state.userFilter, action)
+        userFilter: filterReducer(state.userFilter, action),
+        uiState: uiReducer(state.uiState, action)
     }
 }
 

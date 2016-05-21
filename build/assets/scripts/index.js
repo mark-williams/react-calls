@@ -20255,6 +20255,8 @@
 	
 	var _actions = __webpack_require__(188);
 	
+	var _reducers = __webpack_require__(187);
+	
 	var _PostFilter = __webpack_require__(189);
 	
 	var _PostFilter2 = _interopRequireDefault(_PostFilter);
@@ -20283,18 +20285,21 @@
 	    _createClass(PostList, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            console.log('Mounted!');
-	            (0, _reqwest2.default)({
-	                url: 'http://jsonplaceholder.typicode.com/posts',
-	                type: 'jsonp'
-	            }).then(function (resp) {
-	                return _PostsStore2.default.dispatch((0, _actions.postDataRetrieved)(resp));
-	            }).fail(function (err, msg) {
-	                console.log('ERROR: ' + err);
-	            });
+	            _PostsStore2.default.dispatch((0, _actions.postStartRetrieving)());
+	            setTimeout(function () {
+	                (0, _reqwest2.default)({
+	                    url: 'http://jsonplaceholder.typicode.com/posts',
+	                    type: 'json'
+	                }).then(function (resp) {
+	                    return _PostsStore2.default.dispatch((0, _actions.postDataRetrieved)(resp));
+	                }).fail(function (err, msg) {
+	                    console.log('ERROR: ' + err);
+	                });
+	            }, 6000);
+	
 	            (0, _reqwest2.default)({
 	                url: 'http://jsonplaceholder.typicode.com/users',
-	                type: 'jsonp'
+	                type: 'json'
 	            }).then(function (resp) {
 	                return _PostsStore2.default.dispatch((0, _actions.usersDataRetrieved)(resp));
 	            }).fail(function (err, msg) {
@@ -20330,8 +20335,10 @@
 	        value: function filterPosts() {
 	            var _this2 = this;
 	
+	            // if (typeof this.state.posts === 'undefined') {
+	            //     return null;
+	            // }
 	            return this.state.posts.filter(function (u) {
-	                //return true;
 	                return _this2.state.userFilter == 0 ? true : u.userId === _this2.state.userFilter;
 	            }).map(function (p) {
 	                return _this2.renderPost(p);
@@ -20340,7 +20347,15 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            console.log(this.state);
+	            var retrievingMessage = '';
+	            if (this.state.uiState === _reducers.UI_LOADING) {
+	                retrievingMessage = _react2.default.createElement(
+	                    'div',
+	                    null,
+	                    'Just getting your data, thanks for your patience'
+	                );
+	            }
+	
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -20355,6 +20370,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'eight columns' },
+	                        retrievingMessage,
 	                        _react2.default.createElement(
 	                            'ul',
 	                            { style: { listStyleType: 'none' } },
@@ -21939,20 +21955,27 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.filterReducer = exports.usersReducer = exports.postsReducer = exports.UI_LOADED = exports.UI_LOADING = undefined;
 	
 	var _actions = __webpack_require__(188);
+	
+	var UI_LOADING = exports.UI_LOADING = 'UI_LOADING';
+	var UI_LOADED = exports.UI_LOADED = 'UI_LOADED';
 	
 	var initialState = {
 	    posts: [],
 	    users: [],
-	    userFilter: 0
+	    userFilter: 0,
+	    uiState: UI_LOADING
 	};
 	
-	var postsReducer = function postsReducer() {
+	var postsReducer = exports.postsReducer = function postsReducer() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
 	
 	    switch (action.type) {
+	        case _actions.POSTS_START_RETRIEVING:
+	            return [];
 	        case _actions.POSTS_RETRIEVED:
 	            return action.data;
 	        default:
@@ -21960,7 +21983,7 @@
 	    }
 	};
 	
-	var usersReducer = function usersReducer() {
+	var usersReducer = exports.usersReducer = function usersReducer() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	    var action = arguments[1];
 	
@@ -21972,13 +21995,27 @@
 	    }
 	};
 	
-	var filterReducer = function filterReducer() {
+	var filterReducer = exports.filterReducer = function filterReducer() {
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 	    var action = arguments[1];
 	
 	    switch (action.type) {
 	        case _actions.USER_FILTER_CHANGE:
 	            return parseInt(action.value);
+	        default:
+	            return state;
+	    }
+	};
+	
+	var uiReducer = function uiReducer() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _actions.POSTS_START_RETRIEVING:
+	            return UI_LOADING;
+	        case _actions.POSTS_RETRIEVED:
+	            return UI_LOADED;
 	        default:
 	            return state;
 	    }
@@ -21991,7 +22028,8 @@
 	    return {
 	        posts: postsReducer(state.posts, action),
 	        users: usersReducer(state.users, action),
-	        userFilter: filterReducer(state.userFilter, action)
+	        userFilter: filterReducer(state.userFilter, action),
+	        uiState: uiReducer(state.uiState, action)
 	    };
 	};
 	
@@ -22007,8 +22045,13 @@
 	    value: true
 	});
 	var POSTS_RETRIEVED = exports.POSTS_RETRIEVED = 'POSTS_RETRIEVED';
+	var POSTS_START_RETRIEVING = exports.POSTS_START_RETRIEVING = 'POSTS_START_RETRIEVING';
 	var USERS_RETRIEVED = exports.USERS_RETRIEVED = 'USERS_RETRIEVED';
 	var USER_FILTER_CHANGE = exports.USER_FILTER_CHANGE = 'USER_FILTER_CHANGE';
+	
+	var postStartRetrieving = exports.postStartRetrieving = function postStartRetrieving() {
+	    return { type: POSTS_START_RETRIEVING };
+	};
 	
 	var postDataRetrieved = exports.postDataRetrieved = function postDataRetrieved(data) {
 	    return { type: POSTS_RETRIEVED, data: data };
