@@ -37,4 +37,7 @@ Added some basic tests for the reducers - will enhance these using *Deep-Freeze*
 ####Added uiState
 Added an extra state property to indicate where data is being loaded (so we could show, say, a spinner or *loading* message). This of course has its own reducer. I've added a simple timeout before making the api call to simualte a slow call.
 
+####Added redux-thunk middleware
+Created an action creator - *getData* that returns a function rather than just creating an action. This can be used to delay the dispatch of an action, ot make it conditional, or apply extra functionality, for example logging. Here all it's doing is waiting for a short time before retrieving the posts.
+
 
