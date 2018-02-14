@@ -4,8 +4,10 @@
   "description": "Calling api from react app",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/server/app.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "author": "Mark Williams",
   "license": "ISC",
@@ -26,6 +28,7 @@
     "gulp-mocha": "^2.2.0",
     "gulp-useref": "^3.0.8",
     "gulp-util": "^3.0.7",
+    "react-scripts": "^1.1.1",
     "redux-thunk": "^2.1.0",
     "webpack": "^1.12.14",
     "webpack-stream": "^3.1.0",
