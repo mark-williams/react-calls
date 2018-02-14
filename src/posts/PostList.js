@@ -1,20 +1,11 @@
 import React from 'react';
 import { Post } from './Post';
-import reqwest from 'reqwest';
 import postsStore from './PostsStore';
 import { 
-    POSTS_RETRIEVED, 
-    USERS_RETRIEVED, 
-    USER_FILTER_CHANGE, 
-} from './actions';
-import { 
-    postStartRetrieving,
-    postDataRetrieved, 
-    usersDataRetrieved, 
     userFilterChange,
     getData 
 } from './actions';
-import { UI_LOADING, UI_LOADED } from './reducers';
+import { UI_LOADING } from './reducers';
 import PostFilter from './PostFilter';
 
 class PostList extends React.Component {
@@ -48,7 +39,7 @@ class PostList extends React.Component {
     filterPosts(){
         return this.state.posts
             .filter((u) => {
-                return (this.state.userFilter == 0) ? true : (u.userId === this.state.userFilter); 
+                return (this.state.userFilter === 0) ? true : (u.userId === this.state.userFilter); 
             })
            .map(p => this.renderPost(p)); 
     }

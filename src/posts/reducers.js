@@ -30,7 +30,7 @@ export const usersReducer = (state = [], action) => {
 export const filterReducer = (state = 0, action) => {
     switch (action.type) {
         case USER_FILTER_CHANGE:
-            return parseInt(action.value);
+            return parseInt(action.value, 10);
         default:
             return state;
     }
