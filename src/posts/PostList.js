@@ -25,7 +25,7 @@ class PostList extends React.Component {
 
   renderPost = (p) => (
     <li key={ p.id }>
-    	<Post post={ p } />
+      <Post post={ p } />
     </li>
   );
 
