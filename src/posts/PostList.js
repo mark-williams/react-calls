@@ -15,27 +15,26 @@ class PostList extends React.Component {
     this.state = postsStore.getState();
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     postsStore.dispatch(getData());
   }
 
-  storeUpdated() {
+  storeUpdated = () => {
     this.setState(postsStore.getState());
   }
 
-  renderPost(p) {
-    return (
-      <li key={ p.id }>
-        <Post post={ p } />
-      </li>
-    );
-  }
+  renderPost = (p) => (
+    <li key={ p.id }>
+    	<Post post={ p } />
+    </li>
+  );
 
-  userChanged(event) {
+
+  userChanged = (event) => {
     postsStore.dispatch(userFilterChange(event.target.value));
   }
 
-  filterPosts() {
+  filterPosts = () => {
     return this.state.posts
       .filter((u) => {
         return (this.state.userFilter === 0) ? true : (u.userId === this.state.userFilter);
@@ -43,7 +42,7 @@ class PostList extends React.Component {
       .map(p => this.renderPost(p));
   }
 
-  render() {
+  render = () => {
     let retrievingMessage = '';
     if (this.state.uiState === UI_LOADING) {
       retrievingMessage = <div>Just getting your data, thanks for your patience</div>;
