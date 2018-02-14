@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class PostFilter extends React.Component {
-  
   renderUser(user) {
     return (
       <option key={user.id} value={user.id} >{user.name}</option>
