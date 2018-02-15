@@ -13,7 +13,6 @@
   "author": "Mark Williams",
   "license": "ISC",
   "devDependencies": {
-    "bluebird": "^3.4.0",
     "deep-freeze": "0.0.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb-es5": "^1.2.0",
@@ -25,7 +24,6 @@
     "prop-types": "^15.6.0",
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
-    "redux": "^3.5.2",
-    "reqwest": "^2.0.5"
+    "redux": "^3.5.2"
   }
 }
