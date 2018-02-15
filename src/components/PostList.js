@@ -1,12 +1,12 @@
 import React from 'react';
 import Post from './Post';
-import postsStore from './PostsStore';
+import PostFilter from './PostFilter';
+import postsStore from '../store';
 import {
   userFilterChange,
   getData
-} from './actions';
-import { UI_LOADING } from './reducers';
-import PostFilter from './PostFilter';
+} from '../actions';
+import { UI_LOADING } from '../reducers';
 
 class PostList extends React.Component {
   constructor() {

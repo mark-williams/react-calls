@@ -24,13 +24,16 @@ export const getData = () => {
   return (dispatch) => {
     dispatch(startRetrievingData());
 
-    const getPosts = fetch('http://jsonplaceholder.typicode.com/posts');
-    const getUsers = fetch('http://jsonplaceholder.typicode.com/users');
-
-    Promise.all([getPosts, getUsers]).then((results) => {
-      results[0].json().then(x => dispatch(postDataRetrieved(x)));
-      results[1].json().then(x => dispatch(usersDataRetrieved(x)));
-    });
+    const calls = [
+      fetch('http://jsonplaceholder.typicode.com/posts'),
+      fetch('http://jsonplaceholder.typicode.com/users')
+    ];
+    Promise
+      .all(calls)
+      .then((results) => {
+        results[0].json().then(x => dispatch(postDataRetrieved(x)));
+        results[1].json().then(x => dispatch(usersDataRetrieved(x)));
+      });
   };
 };
 
