@@ -14,7 +14,6 @@
   "license": "ISC",
   "devDependencies": {
     "bluebird": "^3.4.0",
-    "chai": "^3.5.0",
     "deep-freeze": "0.0.1",
     "eslint": "^4.17.0",
     "eslint-config-airbnb-es5": "^1.2.0",
