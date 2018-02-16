@@ -1,6 +1,5 @@
-import reducer, { postsReducer, usersReducer, filterReducer, uiReducer }  from '../posts/reducers';
-import { UI_LOADING, UI_LOADED } from '../posts/reducers';
-import { startRetrievingData, postDataRetrieved, usersDataRetrieved, userFilterChange } from '../posts/actions';
+import reducer, { postsReducer, usersReducer, filterReducer, uiReducer,  UI_LOADING, UI_LOADED }  from '.';
+import { startRetrievingData, postDataRetrieved, usersDataRetrieved, userFilterChange } from '../actions';
 import deepFreeze from 'deep-freeze';
 
 /* eslint no-undefined: 0 */
