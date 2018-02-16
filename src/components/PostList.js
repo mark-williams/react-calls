@@ -3,11 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Post from './Post';
 import PostFilter from './PostFilter';
-
-import {
-  userFilterChange,
-  getData
-} from '../actions';
+import * as actions from '../actions';
 import { UI_LOADING } from '../reducers';
 
 class PostList extends React.Component {
@@ -74,8 +70,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getData: () => dispatch(getData()),
-  userFilterChange: user => dispatch(userFilterChange(user))
+  getData: () => dispatch(actions.getData()),
+  userFilterChange: user => dispatch(actions.userFilterChange(user))
 });
 
 const container = connect(mapStateToProps, mapDispatchToProps)(PostList);
