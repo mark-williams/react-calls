@@ -1,13 +1,17 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import PostList from './PostList';
+import store from '../store';
 
 const Root = () => (
-  <div>
-    <h1>User Posts</h1>
+  <Provider store={store}>
     <div>
-      <PostList />
+      <h1>User Posts</h1>
+      <div>
+        <PostList />
+      </div>
     </div>
-  </div>
+  </Provider>
 );
 
 export default Root;

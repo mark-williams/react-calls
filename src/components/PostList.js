@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Post from './Post';
 import PostFilter from './PostFilter';
-import postsStore from '../store';
+
 import {
   userFilterChange,
   getData
@@ -11,16 +12,11 @@ import { UI_LOADING } from '../reducers';
 class PostList extends React.Component {
   constructor() {
     super();
-    postsStore.subscribe(this.storeUpdated.bind(this));
-    this.state = postsStore.getState();
+    this.state = {};
   }
 
   componentDidMount = () => {
-    postsStore.dispatch(getData());
-  }
-
-  storeUpdated = () => {
-    this.setState(postsStore.getState());
+    this.props.getData();
   }
 
   renderPost = (p) => (
@@ -31,27 +27,25 @@ class PostList extends React.Component {
 
 
   userChanged = (event) => {
-    postsStore.dispatch(userFilterChange(event.target.value));
+    this.props.userFilterChange(event.target.value);
   }
 
   filterPosts = () => {
-    return this.state.posts
-      .filter((u) => {
-        return (this.state.userFilter === 0) ? true : (u.userId === this.state.userFilter);
-      })
-      .map(p => this.renderPost(p));
+    return this.props.posts.filter((u) => {
+      return (this.props.userFilter === 0) ? true : (u.userId === this.props.userFilter);
+    }).map(p => this.renderPost(p));
   }
 
   render = () => {
     let retrievingMessage = '';
-    if (this.state.uiState === UI_LOADING) {
+    if (this.props.uiState === UI_LOADING) {
       retrievingMessage = <div>Just getting your data, thanks for your patience</div>;
     }
 
     return (
       <div>
         <div className="row">
-          <PostFilter users={this.state.users} userOnChange={this.userChanged} />
+          <PostFilter users={this.props.users} userOnChange={this.userChanged} />
         </div>
         <div className="row">
           <div className="eight columns">
@@ -65,4 +59,21 @@ class PostList extends React.Component {
     );
   }
 }
-export default PostList;
+
+const mapStateToProps = state => {
+  return {
+    posts: state.posts,
+    users: state.users,
+    userFilter: state.userFilter,
+    uiState: state.uiState
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  getData: () => dispatch(getData()),
+  userFilterChange: user => dispatch(userFilterChange(user))
+});
+
+const container = connect(mapStateToProps, mapDispatchToProps)(PostList);
+
+export default container;
