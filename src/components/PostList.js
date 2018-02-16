@@ -69,11 +69,13 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  getData: () => dispatch(actions.getData()),
-  userFilterChange: user => dispatch(actions.userFilterChange(user))
-});
+// const mapDispatchToProps = () => ({
+//   ...actions
+// });
 
-const container = connect(mapStateToProps, mapDispatchToProps)(PostList);
+const container = connect(mapStateToProps, actions)(PostList);
 
 export default container;
+
+// getData: () => dispatch(actions.getData()),
+// userFilterChange: user => dispatch(actions.userFilterChange(user))
