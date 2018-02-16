@@ -16,11 +16,10 @@ class PostList extends React.Component {
   }
 
   renderPost = (p) => (
-    <li key={ p.id }>
-      <Post post={ p } />
+    <li key={p.id}>
+      <Post post={p} />
     </li>
   );
-
 
   userChanged = (event) => {
     this.props.userFilterChange(event.target.value);
