@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Post from './Post';
 import PostFilter from './PostFilter';
 
@@ -10,11 +11,6 @@ import {
 import { UI_LOADING } from '../reducers';
 
 class PostList extends React.Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
   componentDidMount = () => {
     this.props.getData();
   }
@@ -59,6 +55,15 @@ class PostList extends React.Component {
     );
   }
 }
+
+PostList.propTypes = {
+  posts: PropTypes.array,
+  users: PropTypes.array,
+  userFilter: PropTypes.number,
+  uiState: PropTypes.string,
+  getData: PropTypes.func,
+  userFilterChange: PropTypes.func
+};
 
 const mapStateToProps = state => {
   return {
