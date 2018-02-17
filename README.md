@@ -40,4 +40,7 @@ Added an extra state property to indicate where data is being loaded (so we coul
 #### Added redux-thunk middleware
 Created an action creator - *getData* that returns a function rather than just creating an action. This can be used to delay the dispatch of an action, ot make it conditional, or apply extra functionality, for example logging. Here all it's doing is waiting for a short time before retrieving the posts.
 
+### February 2018
+Removed the custom build pipeline using gulp and webpack and replaced it with _react-scripts_ (for consistency with my other _create-react-app_ repos). Also incorporated _react-redux_ to use the _connect_ HOC.
+
 
