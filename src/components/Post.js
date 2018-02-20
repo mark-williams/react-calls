@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Post = (props) => (
   <div key={ props.id }>
-    <h5>{ props.post.title }</h5>
+    <h4>{ props.post.title }</h4>
     <p>{ props.post.body }</p>
   </div>
 );
